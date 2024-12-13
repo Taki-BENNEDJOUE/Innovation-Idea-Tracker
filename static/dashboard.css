@@ -29,3 +29,47 @@ body {
     border-radius: 10px;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
+.sidebar.collapsed {
+    transform: translateX(-100%);
+}
+
+.navbar {
+    background: linear-gradient(135deg, #6c757d, #343a40);
+    color: white;
+}
+
+/* Make sidebar responsive */
+@media (max-width: 768px) {
+    .sidebar {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 250px;
+        z-index: 1000;
+        transform: translateX(-100%);
+    }
+    .sidebar.show {
+        transform: translateX(0);
+    }
+
+    .navbar .navbar-toggler {
+        border: none;
+    }
+
+    .navbar-toggler-icon {
+        background-color: white;
+    }
+
+    .container-fluid {
+        padding-left: 0;
+    }
+
+    .col-md-9 {
+        margin-left: 0 !important;
+    }
+}
+
+/* Shine effect for Sidebar */
+.sidebar {
+    box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1);
+}
