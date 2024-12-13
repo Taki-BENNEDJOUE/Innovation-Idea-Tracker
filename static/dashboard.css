@@ -1,0 +1,31 @@
+body {
+    background: #f8f9fa;
+}
+.sidebar {
+    background: linear-gradient(135deg, #6c757d, #343a40);
+    min-height: 100vh;
+    color: white;
+}
+.sidebar h4 {
+    color: #ffffff;
+}
+.sidebar .nav-link {
+    color: #dcdcdc;
+    transition: color 0.3s;
+}
+.sidebar .nav-link:hover {
+    color: white;
+}
+.navbar {
+    background-color: #ffffff;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+.card {
+    border: none;
+    border-radius: 10px;
+}
+.card-body {
+    background: #ffffff;
+    border-radius: 10px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}

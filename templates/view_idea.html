@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>View Idea</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="{{ url_for('static', filename='view.css') }}">
+    <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css" rel="stylesheet">
+</head>
+<body>
+    <div class="col-md-3 col-lg-2 sidebar p-4">
+        <h4 class="text-center mb-4">Dashboard</h4>
+        <ul class="nav flex-column">
+            <li class="nav-item">
+                <a class="nav-link active" href="{{ url_for('dashboard') }}">Dashboard</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="{{ url_for('submit_idea') }}">Submit New Idea</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="{{ url_for('logout') }}">Logout</a>
+            </li>
+        </ul>
+    </div>
+
+    <div class="content container mt-4">
+        <h2>Idea Details</h2>
+
+
+        <h3>{{ idea.title }}</h3>
+        <p><strong>Category:</strong> {{ idea.category }}</p>
+        <p><strong>Description:</strong> {{ idea.description }}</p>
+        <p><strong>Submitted by:</strong> {{ idea.submitter.username }}</p>
+
+        <div>
+            <h4>Votes:</h4>
+            <p>Upvotes: {{ upvotes }}</p>
+            <p>Downvotes: {{ downvotes }}</p>
+        </div>
+
+
+        <div class="d-flex my-3">
+      
+            <form action="{{ url_for('vote', idea_id=idea.id, vote_type='upvote') }}" method="POST" style="display:inline;">
+                <button type="submit" class="btn btn-link p-0" title="Upvote">
+                    <i class="fa fa-thumbs-up" style="font-size: 24px; color: #28a745;"></i>
+                </button>
+            </form>
+        
+          
+            <form action="{{ url_for('vote', idea_id=idea.id, vote_type='downvote') }}" method="POST" style="display:inline;">
+                <button type="submit" class="btn btn-link p-0" title="Downvote">
+                    <i class="fa fa-thumbs-down" style="font-size: 24px; color: #dc3545;"></i>
+                </button>
+            </form>
+        </div>
+        
+        
+
+        <div class="comments-section ">
+            <form method="POST" action="{{ url_for('add_comment', idea_id=idea.id) }}">
+                <div class="d-flex justify-content-center pt-3 pb-2">
+                    <input type="text" name="content" placeholder="Add a comment..." class="form-control addtxt" required> 
+                </div>
+            </form>         
+        </div>
+
+
+        {% for comment, username, replies in comments %}
+        <div class="be-comment">
+            <div class="be-comment-content">
+                <span class="be-comment-name">
+                    <p><strong>{{ username }}</strong> Said:</p>
+                </span>
+                <span class="be-comment-time">
+                    <i class="fa fa-clock-o"></i>
+                    On {{ comment.timestamp.strftime('%Y-%m-%d %H:%M') }}
+                </span>
+
+                <p class="be-comment-text">
+                    {{ comment.content }}
+                </p>
+            </div>
+        </div>
+        
+
+        <div class="be-comment">
+            {% for reply, reply_username in replies %}
+            <div class="be-comment-content">
+                <span class="be-comment-name">
+                    <p><strong>{{ reply_username }}</strong> replied:</p>
+                </span>
+                <span class="be-comment-time">
+                    <i class="fa fa-clock-o"></i>
+                    On {{ reply.timestamp.strftime('%Y-%m-%d %H:%M') }}
+                </span>
+
+                <p class="be-comment-text">
+                    {{ reply.content }}
+                </p>
+            </div>
+            {% endfor %}  
+        </div>
+
+ 
+        <form method="POST" action="{{ url_for('add_comment', idea_id=idea.id) }}">
+            <input type="hidden" name="parent_id" value="{{ comment.id }}">
+            <div class="d-flex justify-content-center pt-3 pb-2"> 
+                <input type="text" name="content" placeholder="+Reply to this comment..." class="form-control addtxt" required> 
+            </div>
+        </form>
+        {% endfor %}
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
